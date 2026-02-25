@@ -24,7 +24,16 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: hidden;
+  overflow-y: scroll;
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE and Edge */
+}
+
+body::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari and Opera */
 }
 
 /* Dynamic Background */
@@ -161,11 +170,9 @@ header p {
 }
 
 .btn.primary {
-  background: linear-gradient(
-    135deg,
-    var(--accent-primary),
-    var(--accent-secondary)
-  );
+  background: linear-gradient(135deg,
+      var(--accent-primary),
+      var(--accent-secondary));
   color: white;
 }
 
@@ -254,17 +261,21 @@ input:focus {
   background: rgba(0, 0, 0, 0.2);
   border-radius: 16px;
   padding: 16px 20px;
-  max-height: 200px;
-  overflow-y: scroll;
-  scrollbar-width: none;
-  /* Firefox */
-  -ms-overflow-style: none;
-  /* IE and Edge */
+  max-height: 500px;
+  /* Increased from 200px */
+  overflow-y: auto;
+  /* Show scrollbar if needed, or hide if preferred */
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent-primary) transparent;
 }
 
 .faq-card::-webkit-scrollbar {
-  display: none;
-  /* Chrome, Safari and Opera */
+  width: 4px;
+}
+
+.faq-card::-webkit-scrollbar-thumb {
+  background: var(--accent-primary);
+  border-radius: 10px;
 }
 
 .faq-item {

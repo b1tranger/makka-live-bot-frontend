@@ -86,6 +86,65 @@ checkStatus();
 // Poll every 5 seconds
 setInterval(checkStatus, 5000);
 
+// Documentation Viewer Logic
+const viewDocBtn = document.getElementById("view-doc-btn");
+const backToHomeBtn = document.getElementById("back-to-home-btn");
+const docSection = document.getElementById("doc-section");
+const mainContainerChildren = document.querySelectorAll(".container > *:not(#doc-section):not(footer)");
+const docContent = document.getElementById("doc-content");
+
+async function loadDoc(filePath) {
+    try {
+        const response = await fetch(filePath);
+        if (!response.ok) throw new Error("Failed to load documentation");
+        const markdown = await response.text();
+
+        // Render markdown
+        docContent.innerHTML = marked.parse(markdown);
+
+        // Handle internal links
+        const links = docContent.querySelectorAll("a");
+        links.forEach(link => {
+            const href = link.getAttribute("href");
+            if (href && href.endsWith(".md")) {
+                link.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    // Resolve relative path
+                    const currentDir = filePath.substring(0, filePath.lastIndexOf("/") + 1);
+                    loadDoc(currentDir + href);
+                });
+            } else {
+                link.setAttribute("target", "_blank");
+            }
+        });
+
+        // Scroll to top of doc
+        docSection.scrollTop = 0;
+    } catch (error) {
+        console.error("Doc Error:", error);
+        docContent.innerHTML = `<p style="color: var(--error)">Error loading documentation: ${error.message}</p>`;
+    }
+}
+
+function toggleDocView(show) {
+    if (show) {
+        mainContainerChildren.forEach(el => el.classList.add("hidden"));
+        docSection.classList.remove("hidden");
+        loadDoc("doc/README.md");
+    } else {
+        mainContainerChildren.forEach(el => el.classList.remove("hidden"));
+        docSection.classList.add("hidden");
+    }
+}
+
+if (viewDocBtn) {
+    viewDocBtn.addEventListener("click", () => toggleDocView(true));
+}
+
+if (backToHomeBtn) {
+    backToHomeBtn.addEventListener("click", () => toggleDocView(false));
+}
+
 // Update footer year dynamically
 const footerYearElement = document.querySelector("footer p");
 if (footerYearElement) {

@@ -7,6 +7,7 @@
     <title>Makka Live Bot | Control Center</title>
     <link rel="stylesheet" href="style.css" />
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 
 <body>
@@ -20,7 +21,7 @@
             <img src="../makka-VectorStock.png" alt="Bot Logo" class="logo"
                 style="border-radius: 45px;box-shadow: 0 0 10px white;" />
             <h1>Makka-live</h1>
-            <p>Decentralized hosted bot<br>for playing Quran Recitation in the background</p>
+            <p>Decentrally hosted Discord bot<br>for playing Quran Recitation in the background</p>
         </header>
 
         <section class="status-card">
@@ -71,6 +72,15 @@
 
         <section class="faq-card">
             <details class="faq-item">
+                <summary>Introduction</summary>
+                <div class="faq-content">
+                    <p>Makka Live Bot is a specialized Discord music bot designed for high-quality audio streaming from
+                        YouTube. It features a unique "Remote Control" architecture that allows users to host the bot on
+                        their local machines while controlling it via a centralized web dashboard, all while keeping the
+                        source code and tokens protected.</p>
+                </div>
+            </details>
+            <details class="faq-item">
                 <summary>How does the bot work?</summary>
                 <div class="faq-content">
                     <p>Makka Live Bot can be run in two ways:</p>
@@ -109,6 +119,21 @@
                     </ol>
                 </div>
             </details>
+            <div style="margin-top: 16px; text-align: center;">
+                <button id="view-doc-btn" class="btn secondary" style="padding: 8px 16px; font-size: 0.85rem;">View
+                    Documentation</button>
+            </div>
+        </section>
+
+        <!-- Documentation Viewer (Hidden by default) -->
+        <section id="doc-section" class="faq-card hidden" style="max-height: none; text-align: left;">
+            <div style="margin-bottom: 16px;">
+                <button id="back-to-home-btn" class="btn secondary"
+                    style="padding: 8px 16px; font-size: 0.85rem;">&larr; Back to Home</button>
+            </div>
+            <div id="doc-content" class="faq-content" style="opacity: 1; transform: none;">
+                <!-- Markdown content will be rendered here -->
+            </div>
         </section>
 
         <footer>
