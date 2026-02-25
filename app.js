@@ -1,25 +1,25 @@
-const startBtn = document.getElementById('start-btn');
-const stopBtn = document.getElementById('stop-btn');
-const statusDot = document.getElementById('status-dot');
-const statusText = document.getElementById('status-text');
-const backendInput = document.getElementById('backend-url');
+const startBtn = document.getElementById("start-btn");
+const stopBtn = document.getElementById("stop-btn");
+const statusDot = document.getElementById("status-dot");
+const statusText = document.getElementById("status-text");
+const backendInput = document.getElementById("backend-url");
 
-const inviteSection = document.getElementById('invite-section');
+const inviteSection = document.getElementById("invite-section");
 
 let baseUrl = backendInput.value.replace(/\/$/, "");
 
-backendInput.addEventListener('change', () => {
+backendInput.addEventListener("change", () => {
     baseUrl = backendInput.value.replace(/\/$/, "");
     checkStatus();
 });
 
-async function apiCall(endpoint, method = 'GET') {
+async function apiCall(endpoint, method = "GET") {
     try {
         const response = await fetch(`${baseUrl}${endpoint}`, {
             method: method,
             headers: {
-                'Content-Type': 'application/json'
-            }
+                "Content-Type": "application/json",
+            },
         });
         return await response.json();
     } catch (error) {
@@ -29,11 +29,11 @@ async function apiCall(endpoint, method = 'GET') {
 }
 
 async function checkStatus() {
-    const data = await apiCall('/status');
+    const data = await apiCall("/status");
 
-    if (data.status === 'running') {
+    if (data.status === "running") {
         updateUI(true);
-    } else if (data.status === 'stopped') {
+    } else if (data.status === "stopped") {
         updateUI(false);
     } else {
         statusText.innerText = "Status: Connection Error";
@@ -57,10 +57,10 @@ function updateUI(isRunning) {
     }
 }
 
-startBtn.addEventListener('click', async () => {
+startBtn.addEventListener("click", async () => {
     startBtn.disabled = true;
     statusText.innerText = "Status: Starting...";
-    const data = await apiCall('/start', 'POST');
+    const data = await apiCall("/start", "POST");
     if (data.error) {
         alert(data.error);
         checkStatus();
@@ -69,10 +69,10 @@ startBtn.addEventListener('click', async () => {
     }
 });
 
-stopBtn.addEventListener('click', async () => {
+stopBtn.addEventListener("click", async () => {
     stopBtn.disabled = true;
     statusText.innerText = "Status: Stopping...";
-    const data = await apiCall('/stop', 'POST');
+    const data = await apiCall("/stop", "POST");
     if (data.error) {
         alert(data.error);
         checkStatus();
@@ -85,3 +85,9 @@ stopBtn.addEventListener('click', async () => {
 checkStatus();
 // Poll every 5 seconds
 setInterval(checkStatus, 5000);
+
+// Update footer year dynamically
+const footerYearElement = document.querySelector("footer p");
+if (footerYearElement) {
+    footerYearElement.innerHTML = `&copy; ${new Date().getFullYear()} | <a href="https://github.com/b1tranger" target="_blank" style="color: white;">b1tranger</a>`;
+}
