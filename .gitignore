@@ -2,3 +2,6 @@
 dist/MakkaLauncher.exe
 dist/MakkaLauncher.exe
 *.exe
+dist/MakkaLauncher.exe
+/dist
+/dist
