@@ -6,7 +6,7 @@ const backendInput = document.getElementById('backend-url');
 
 const inviteSection = document.getElementById('invite-section');
 
-let baseUrl = backendInput.value;
+let baseUrl = backendInput.value.replace(/\/$/, "");
 
 backendInput.addEventListener('change', () => {
     baseUrl = backendInput.value.replace(/\/$/, "");
