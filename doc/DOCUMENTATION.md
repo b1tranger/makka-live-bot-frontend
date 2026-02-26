@@ -50,17 +50,22 @@ Makka Live Bot is a specialized Discord music bot designed for high-quality audi
 - **Navigation Buttons**: Implemented Discord UI buttons for flipping through ayah translations.
 - **In-Dashboard Docs**: Added a markdown viewer to the dashboard for reading documentation locally without leaving the site.
 - **Smart Notifications**: Priority-based message routing to minimize channel clutter (Bot-channel > Voice Chat > System).
-- **UI Polish**: Hidden body scrollbars and expanded FAQ real estate.
+
+### v1.6.0 (Automatic Failover & Reliability Update)
+- **Standby Mode**: Multiple instances can now run simultaneously without conflicts.
+- **Automatic Failover**: Standby instances promote themselves to Master if the active heartbeat is lost.
+- **High Availability**: Ensures the bot stays online as long as one launcher is active.
 
 ---
 
 ## Technical Features
 
-### Concurrency Control (Handshake Protocol)
-To prevent Discord API conflicts when multiple users run the `.exe` simultaneously, the bot follows a "First-Come, First-Served" rule:
-1. New instances broadcast a "Handshake Request" via Discord with a unique **Session ID**.
-2. If an active instance exists, it responds with a "Master Claim."
-3. The new instance detects the claim (ignoring its own Session ID) and shuts down immediately to ensure a stable stream.
+### Concurrency Control (Heartbeat & Failover)
+To ensure 100% uptime and prevent API conflicts, the bot uses a decentralized failover system:
+1. **Handshake**: On startup, the instance checks for an active Master. If found, it enters **Standby Mode**.
+2. **Heartbeat**: The Master instance broadcasts a heartbeat every 30 seconds with its **Session ID**.
+3. **Standby Monitoring**: Standby instances track the `last_heartbeat`.
+4. **Promotion**: If no heartbeat is received for 70 seconds, the Standby instance promotes itself to **Master** and takes over command processing.
 
 ### Music Queue & Playlist Architecture
 The bot maintains a dictionary of queues keyed by Guild ID. When a playlist URL is provided:
