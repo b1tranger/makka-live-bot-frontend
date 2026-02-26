@@ -53,8 +53,38 @@ Makka Live Bot is a specialized Discord music bot designed for high-quality audi
 
 ### v1.6.0 (Automatic Failover & Reliability Update)
 - **Standby Mode**: Multiple instances can now run simultaneously without conflicts.
-- **Automatic Failover**: Standby instances promote themselves to Master if the active heartbeat is lost.
-- **High Availability**: Ensures the bot stays online as long as one launcher is active.
+- **Heartbeat System**: Master instances broadcast a "Stay Alive" signal every 30 seconds.
+- **Automatic Failover**: Standby instances promote themselves to Master if the active heartbeat is lost for >70 seconds.
+- **Command Isolation**: Only the Master instance processes user commands, preventing duplicate responses.
+
+---
+
+## Bot Commands
+
+The following commands are available to interact with the bot in Discord.
+
+### Music & Media
+| Command | Usage | Description |
+| :--- | :--- | :--- |
+| `!join` | `!join` | Connects the bot to your current voice channel. |
+| `!play` | `!play <URL>` | Plays audio from a YouTube video, live stream, or playlist. |
+| `!pause` | `!pause` | Pauses the current playback. |
+| `!resume` | `!resume` | Resumes a paused playback. |
+| `!skip` | `!skip` | Skips the current track and plays the next in queue. |
+| `!stop` | `!stop` | Stops playback, clears the queue, and disconnects the bot. |
+
+### Quran Recitation
+| Command | Usage | Description |
+| :--- | :--- | :--- |
+| `!quran` | `!quran <surah> <start> [end] [reciter]` | Plays a range of verses. Default reciter ID is 7. |
+| `!ayah` | `!ayah <surah> <ayah> [reciter]` | Plays a single verse from a specific surah. |
+| `!reciters`| `!reciters` | Lists the top 20 available reciter IDs. |
+| `!translate`| `!translate <surah> <ayah> [lang]` | Shows the translation of an ayah with ◀️/▶️ navigation buttons. |
+
+### System & Failover
+| Command | Usage | Description |
+| :--- | :--- | :--- |
+| `!close_bot`| `!close_bot` | Safely shuts down the Master instance and triggers instant failover to Standby. |
 
 ---
 
@@ -63,9 +93,9 @@ Makka Live Bot is a specialized Discord music bot designed for high-quality audi
 ### Concurrency Control (Heartbeat & Failover)
 To ensure 100% uptime and prevent API conflicts, the bot uses a decentralized failover system:
 1. **Handshake**: On startup, the instance checks for an active Master. If found, it enters **Standby Mode**.
-2. **Heartbeat**: The Master instance broadcasts a heartbeat every 30 seconds with its **Session ID**.
-3. **Standby Monitoring**: Standby instances track the `last_heartbeat`.
-4. **Promotion**: If no heartbeat is received for 70 seconds, the Standby instance promotes itself to **Master** and takes over command processing.
+2. **Master Announcement**: Upon becoming Master (at startup or via failover), the instance sends a one-time message: `👑 Makka Master: Instance [SID:...] is now ACTIVE.`
+3. **Heartbeat**: The Master instance sends a background heartbeat `💓 [HB:...]` every 30 seconds to update the `last_heartbeat` timestamp on Standby instances.
+4. **Promotion**: If no heartbeat is received for 70 seconds, or if a "Shutting Down" signal is detected, a Standby instance promotes itself to **Master**.
 
 ### Music Queue & Playlist Architecture
 The bot maintains a dictionary of queues keyed by Guild ID. When a playlist URL is provided:
