@@ -53,9 +53,17 @@ Makka Live Bot is a specialized Discord music bot designed for high-quality audi
 
 ### v1.6.0 (Automatic Failover & Reliability Update)
 - **Standby Mode**: Multiple instances can now run simultaneously without conflicts.
-- **Heartbeat System**: Master instances broadcast a "Stay Alive" signal every 30 seconds.
-- **Automatic Failover**: Standby instances promote themselves to Master if the active heartbeat is lost for >70 seconds.
-- **Command Isolation**: Only the Master instance processes user commands, preventing duplicate responses.
+- **Heartbeat System**: Master instances broadcast a "Stay Alive" signal every 15 seconds.
+- **Automatic Failover**: Standby instances promote themselves to Master if the active heartbeat is lost for >35 seconds.
+- **State Recovery**: Upon failover, Standby instances automatically rejoin the voice channels the previous Master was in.
+
+### v1.7.0 (Content Focus & API Upgrade)
+- **Islamic Content Filter**: `!play` now validates video titles against a curated list of Islamic keywords (Nasheeds, Quran, Lectures).
+- **Moderation Bypass**: Added `!haram` command to bypass filters (logged to moderator channels for accountability).
+- **FFmpeg Bundling**: FFmpeg binaries are now baked into the `.exe`, eliminating first-run downloads.
+- **Quran Foundation API**: Upgraded to support the latest Quran Foundation API with Client ID/Secret security.
+- **Silent Heartbeats**: Heartbeat messages are now sent in "Silent" mode to prevent constant notification pings.
+- **Command Help**: Added a custom interactive `!help` command with detailed field groups.
 
 ---
 
@@ -66,8 +74,10 @@ The following commands are available to interact with the bot in Discord.
 ### Music & Media
 | Command | Usage | Description |
 | :--- | :--- | :--- |
+| `!help` | `!help` | Displays a detailed menu of all available bot commands. |
 | `!join` | `!join` | Connects the bot to your current voice channel. |
-| `!play` | `!play <URL>` | Plays audio from a YouTube video, live stream, or playlist. |
+| `!play` | `!play <URL>` | Plays audio from a YouTube video or search (Islamic content only). |
+| `!haram` | `!haram <URL>` | Bypasses the Islamic filter (usage is logged for moderators). |
 | `!pause` | `!pause` | Pauses the current playback. |
 | `!resume` | `!resume` | Resumes a paused playback. |
 | `!skip` | `!skip` | Skips the current track and plays the next in queue. |
@@ -94,8 +104,9 @@ The following commands are available to interact with the bot in Discord.
 To ensure 100% uptime and prevent API conflicts, the bot uses a decentralized failover system:
 1. **Handshake**: On startup, the instance checks for an active Master. If found, it enters **Standby Mode**.
 2. **Master Announcement**: Upon becoming Master (at startup or via failover), the instance sends a one-time message: `👑 Makka Master: Instance [SID:...] is now ACTIVE.`
-3. **Heartbeat**: The Master instance sends a background heartbeat `💓 [HB:...]` every 30 seconds to update the `last_heartbeat` timestamp on Standby instances.
-4. **Promotion**: If no heartbeat is received for 70 seconds, or if a "Shutting Down" signal is detected, a Standby instance promotes itself to **Master**.
+3. **Heartbeat**: The Master instance sends a background heartbeat `💓 [HB:...]` every 15 seconds to update the `last_heartbeat` timestamp on Standby instances.
+4. **Promotion**: If no heartbeat is received for 35 seconds, or if a "Shutting Down" signal is detected, a Standby instance promotes itself to **Master**.
+5. **State Recovery**: The new Master uses the last known voice channel data from the heartbeat to automatically reconnect.
 
 ### Music Queue & Playlist Architecture
 The bot maintains a dictionary of queues keyed by Guild ID. When a playlist URL is provided:
@@ -107,10 +118,17 @@ The bot maintains a dictionary of queues keyed by Guild ID. When a playlist URL 
 The `.env` and `bot.py` files are bundled directly into the `MakkaLauncher.exe` using PyInstaller's `--add-data` flag. The environment is loaded dynamically using `sys._MEIPASS` redirection.
 
 ### Quran Foundation API Integration
-The bot leverages the Quran.com API (v4) to fetch verse information, translations, and audio URLs.
+The bot leverages the Quran Foundation API to fetch verse information, translations, and audio URLs.
+- **Secure Access**: Supports `QURAN_CLIENT_ID` and `QURAN_CLIENT_SECRET` for authorized playback.
 - **Reciter Selection**: Users can choose from hundreds of reciters via ID.
 - **Translation Navigation**: Uses `discord.ui.View` with buttons to allow stateful navigation between verses.
 - **Audio Delivery**: Direct MP3 streaming via FFmpeg bypasses local download overhead for instant playback.
+
+### Islamic Content Filtering Logic
+To maintain the focus of the server, the bot implements a two-stage filter:
+1. **Halal Keywords**: Searches title for terms like `Nasheed`, `Dhikr`, `Lecture`, `Quran`.
+2. **Haram Keywords**: Explicitly blocks terms like `Pop`, `Rock`, `Club`, `Remix`, `Dance`.
+3. **Bypass Protocol**: The `!haram` command allows playing unverified content but triggers a moderator alert with the user's name and content link.
 
 ### Message Routing Logic
 To maintain server cleanliness, the bot uses a priority system for notifications:
@@ -124,7 +142,7 @@ To maintain server cleanliness, the bot uses a priority system for notifications
 
 | Issue | Cause | Fix |
 | :--- | :--- | :--- |
-| **FFmpeg Not Found** | System PATH not configured. | Integrated `static-ffmpeg` to auto-detect/download binaries. |
+| **FFmpeg Not Found** | System PATH not configured. | Integrated `static-ffmpeg` and bundled binaries into EXE. |
 | **Duplicate Processes** | Multiple people running EXE. | **Handshake Lock**: Instances auto-negotiate who stays active based on login order. |
 | **Source Exposure** | Sharing Python files reveals tokens. | Implemented PyInstaller with `--add-data` to hide files in binary. |
 | **Port Conflict** | Launcher opened twice on one PC. | Added port-in-use detection in `server.py` with custom error prompts. |

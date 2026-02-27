@@ -39,7 +39,7 @@
 
             <label style="text-align: left; display: block; margin-bottom: 8px">Option 2: Run Locally</label>
             <div class="controls">
-                <a href="https://github.com/b1tranger/makka-live-bot-frontend/releases/download/v1.6.1/MakkaLauncher.exe"
+                <a href="https://github.com/b1tranger/makka-live-bot-frontend/releases/download/v1.7.0/MakkaLauncher.exe"
                     id="download-link" download class="btn primary" style="
               display: block;
               text-decoration: none;
@@ -128,7 +128,34 @@
                         <li>The first one to start becomes the <strong>Master</strong> and handles all commands.</li>
                         <li>Others enter <strong>Standby Mode</strong> automatically.</li>
                         <li>If the Master instance is closed or loses connection, a Standby instance will
-                            automatically take over as the new Master within 70 seconds.</li>
+                            automatically take over as the new Master within <strong>35 seconds</strong>.</li>
+                        <li>The new Master will even automatically rejoin the voice channels and resume its last known
+                            state.</li>
+                    </ul>
+                </div>
+            </details>
+            <details class="faq-item">
+                <summary>What is the Islamic Content Filter?</summary>
+                <div class="faq-content">
+                    <p>To ensure the server focus remains on Islamic content, the bot includes a <strong>Halal
+                            Filter</strong>:</p>
+                    <ul>
+                        <li>The <code>!play</code> command checks titles for keywords like <em>Quran, Nasheed, Islamic,
+                                Lecture</em>.</li>
+                        <li>Songs and music content are automatically blocked.</li>
+                        <li>Moderators can use <code>!haram &lt;url&gt;</code> to bypass the filter, which sends an
+                            alert to the notification channel.</li>
+                    </ul>
+                </div>
+            </details>
+            <details class="faq-item">
+                <summary>How do I use the Quran commands?</summary>
+                <div class="faq-content">
+                    <p>The bot is integrated with the <strong>Quran Foundation API</strong>. You can use:</p>
+                    <ul>
+                        <li><code>!quran &lt;surah&gt; &lt;start&gt; [end]</code> to play specific verses.</li>
+                        <li><code>!translate &lt;surah&gt; &lt;ayah&gt;</code> to view interactive translations.</li>
+                        <li>Use <code>!help</code> in Discord to see the full list of available commands.</li>
                     </ul>
                 </div>
             </details>
