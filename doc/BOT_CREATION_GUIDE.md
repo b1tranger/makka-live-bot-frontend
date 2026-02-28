@@ -3,8 +3,8 @@
 This guide explains how the Discord bot project was created and how to set it up for the first time.
 
 ## Project Structure
-- `requirements.txt`: Contains all necessary Python packages, including `static-ffmpeg` for automatic binary handling.
-- `bot.py`: The main bot implementation with commands for joining, playing (including live streams), and stopping.
+- `requirements.txt`: Contains all necessary Python packages, including `static-ffmpeg` as an execution fallback.
+- `bot.py`: The main bot implementation with commands for joining, playing streaming audio, and Quran integration.
 - `.env.template`: Template for your Discord token.
 - `README.md`: Comprehensive guide for setup and the Discord Developer Portal.
 
@@ -26,6 +26,6 @@ This guide explains how the Discord bot project was created and how to set it up
    - Type `!stop` to disconnect.
 
 ## Key Features Implemented
-- **Zero-Manual FFmpeg Setup**: Using `static-ffmpeg` eliminates the need for users to install FFmpeg manually.
+- **Zero-Manual FFmpeg Setup**: PyInstaller compilation automatically bundles standalone FFmpeg binaries directly into the output executable, while raw python executions fall back cleanly to `static-ffmpeg`.
 - **YouTube Live Support**: `yt-dlp` is configured to stream live content directly.
 - **Robust Reconnection**: FFmpeg options are set to handle stream drops and reconnections.

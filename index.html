@@ -37,21 +37,16 @@
                 <button id="stop-btn" class="btn secondary" disabled>Stop Bot</button>
             </div>
 
-            <label style="text-align: left; display: block; margin-bottom: 8px">Option 2: Run Locally</label>
+            <label style="text-align: left; display: block; margin-bottom: 8px">Option 2: Run Locally (Host
+                Yourself)</label>
             <div class="controls">
-                <a href="https://github.com/b1tranger/makka-live-bot-frontend/releases/download/v1.7.1/MakkaLauncher.exe"
-                    id="download-link" download class="btn primary" style="
-              display: block;
-              text-decoration: none;
-              text-align: center;
-              width: 100%;
-              box-sizing: border-box;
-            ">Download Launcher</a>
+                <button id="download-win-btn" class="btn primary">Windows (.exe)</button>
+                <button id="download-and-btn" class="btn primary">Android (.sh)</button>
             </div>
         </section>
 
         <section class="config-card">
-            <input type="hidden" id="backend-url" value="https://makka-live-bot-backend.vercel.app" />
+
 
             <div id="invite-section" class="invite-section" style="
             border-top: none;
@@ -175,6 +170,49 @@
                 <!-- Markdown content will be rendered here -->
             </div>
         </section>
+
+        <!-- Windows Modal -->
+        <div id="win-modal" class="modal hidden">
+            <div class="modal-content">
+                <span class="close-btn">&times;</span>
+                <h2>Windows Setup</h2>
+                <div class="modal-body"
+                    style="text-align: left; margin-top: 15px; color: var(--text-dim); line-height: 1.6;">
+                    <p>1. Download the <code>MakkaLauncher.exe</code> file.</p>
+                    <p>2. Double-click the downloaded file to run it.</p>
+                    <p>3. If Windows SmartScreen blocks it, click "More info" and then "Run anyway".</p>
+                    <p>4. Wait for the control center to show the bot as "Online".</p>
+                </div>
+                <a href="https://github.com/b1tranger/makka-live-bot-frontend/releases/download/v1.8.0/MakkaLauncher.exe"
+                    id="confirm-win-download" download class="btn primary"
+                    style="display: block; margin-top: 20px; text-decoration: none; text-align: center;">Download
+                    MakkaLauncher.exe</a>
+            </div>
+        </div>
+
+        <!-- Android Modal -->
+        <div id="and-modal" class="modal hidden">
+            <div class="modal-content">
+                <span class="close-btn">&times;</span>
+                <h2>Android Setup (Termux)</h2>
+                <div class="modal-body"
+                    style="text-align: left; margin-top: 15px; color: var(--text-dim); line-height: 1.6;">
+                    <p>1. Install <strong>Termux</strong> from <a href="https://f-droid.org/en/packages/com.termux/"
+                            target="_blank" style="color: #60a5fa;">F-Droid</a> (Do not use Google Play).</p>
+                    <p>2. Download the <code>MakkaLauncher-Android</code> binary using the button below to your phone.
+                    </p>
+                    <p>3. Move the file into your Termux home directory.</p>
+                    <p>4. Open Termux, make the file executable, and run it:</p>
+                    <pre
+                        style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 5px; overflow-x: auto; font-size: 0.8em; margin: 10px 0;"><code style="color: var(--accent-secondary);">chmod +x MakkaLauncher-Android
+./MakkaLauncher-Android</code></pre>
+                </div>
+                <!-- TODO: Replace placeholder URL with the actual GitHub Release URL for the Android binary -->
+                <a href="#" id="confirm-and-download" download class="btn primary"
+                    style="display: block; margin-top: 20px; text-decoration: none; text-align: center;">Download
+                    MakkaLauncher-Android</a>
+            </div>
+        </div>
 
         <footer>
             <p>&copy; 2026 b1tranger</p>

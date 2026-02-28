@@ -5,13 +5,13 @@ Welcome to the Makka Live Bot control center! This guide will help you set up an
 ## 🚀 Setup Guide
 
 ### 1. Preparation
-- **For the Developer**: Run `python build_launcher.py`. This generates `dist/MakkaLauncher.exe`.
-- **For the User**: Download `MakkaLauncher.exe` from the link provided on the web dashboard.
+- **Windows Deployment**: Download `MakkaLauncher.exe` from the link provided on the web dashboard.
+- **Android Deployment (Termux)**: Open Termux, download the `MakkaLauncher-Android` binary (refer to the dashboard instructions), and grant it executable permissions (`chmod +x MakkaLauncher-Android`).
 
 ### 2. Launching the "Engine"
-1. Double-click `MakkaLauncher.exe` on the computer that will host the bot.
-2. A window will open (you can minimize this, but **do not close it**).
-3. The engine is now waiting for commands from the dashboard.
+1. **On Windows**: Double-click `MakkaLauncher.exe`. A terminal window will open (do not close it).
+2. **On Android**: Execute `./MakkaLauncher-Android` in the Termux terminal. Keep Termux running.
+3. The engine is now connected to Discord and waiting for remote operations.
 
 ### 3. Using the Web Dashboard
 1. Open the [Makka Control Website].

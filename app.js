@@ -150,3 +150,38 @@ const footerYearElement = document.querySelector("footer p");
 if (footerYearElement) {
     footerYearElement.innerHTML = `&copy; ${new Date().getFullYear()} | <a href="https://github.com/b1tranger" target="_blank" style="color: white;">b1tranger</a>`;
 }
+
+// Modal Logic
+const winModal = document.getElementById("win-modal");
+const andModal = document.getElementById("and-modal");
+const downloadWinBtn = document.getElementById("download-win-btn");
+const downloadAndBtn = document.getElementById("download-and-btn");
+const closeBtns = document.querySelectorAll(".close-btn");
+
+if (downloadWinBtn) {
+    downloadWinBtn.addEventListener("click", () => {
+        winModal.classList.remove("hidden");
+    });
+}
+
+if (downloadAndBtn) {
+    downloadAndBtn.addEventListener("click", () => {
+        andModal.classList.remove("hidden");
+    });
+}
+
+closeBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+        winModal.classList.add("hidden");
+        andModal.classList.add("hidden");
+    });
+});
+
+window.addEventListener("click", (e) => {
+    if (e.target === winModal) {
+        winModal.classList.add("hidden");
+    }
+    if (e.target === andModal) {
+        andModal.classList.add("hidden");
+    }
+});

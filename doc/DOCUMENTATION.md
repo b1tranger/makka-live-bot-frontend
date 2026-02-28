@@ -60,10 +60,14 @@ Makka Live Bot is a specialized Discord music bot designed for high-quality audi
 ### v1.7.0 (Content Focus & API Upgrade)
 - **Islamic Content Filter**: `!play` now validates video titles against a curated list of Islamic keywords (Nasheeds, Quran, Lectures).
 - **Moderation Bypass**: Added `!haram` command to bypass filters (logged to moderator channels for accountability).
-- **FFmpeg Bundling**: FFmpeg binaries are now baked into the `.exe`, eliminating first-run downloads.
 - **Quran Foundation API**: Upgraded to support the latest Quran Foundation API with Client ID/Secret security.
 - **Silent Heartbeats**: Heartbeat messages are now sent in "Silent" mode to prevent constant notification pings.
 - **Command Help**: Added a custom interactive `!help` command with detailed field groups.
+
+### v1.8.0 (Android & Usability Update)
+- **Android Support**: Added `MakkaLauncher-Android` (Linux ARM64 binary build) via GitHub Actions for secure deployment on Termux without exposing tokens.
+- **Surah Query**: Added `!surah` command which lists all 114 Surahs and total ayah counts in an optimized 3-column format spanning two Discord messages to bypass character limits.
+- **Static FFmpeg Re-Integration**: PyInstaller now uses `--collect-all=static_ffmpeg` to bundle FFmpeg binaries natively, preserving seamless execution for both full Windows `.exe` builds and direct `python bot.py` development environments without errors.
 
 ---
 
@@ -86,6 +90,7 @@ The following commands are available to interact with the bot in Discord.
 ### Quran Recitation
 | Command | Usage | Description |
 | :--- | :--- | :--- |
+| `!surah` | `!surah` | Lists all 114 Surahs and their verse counts in 3-columns to easily find chapters. |
 | `!quran` | `!quran <surah> <start> [end] [reciter]` | Plays a range of verses. Default reciter ID is 7. |
 | `!ayah` | `!ayah <surah> <ayah> [reciter]` | Plays a single verse from a specific surah. |
 | `!reciters`| `!reciters` | Lists the top 20 available reciter IDs. |
@@ -142,7 +147,7 @@ To maintain server cleanliness, the bot uses a priority system for notifications
 
 | Issue | Cause | Fix |
 | :--- | :--- | :--- |
-| **FFmpeg Not Found** | System PATH not configured. | Integrated `static-ffmpeg` and bundled binaries into EXE. |
+| **FFmpeg Not Found** | System PATH not configured. | Integrated `static-ffmpeg` and bundled binaries into EXE (with fallback for raw script). |
 | **Duplicate Processes** | Multiple people running EXE. | **Handshake Lock**: Instances auto-negotiate who stays active based on login order. |
 | **Source Exposure** | Sharing Python files reveals tokens. | Implemented PyInstaller with `--add-data` to hide files in binary. |
 | **Port Conflict** | Launcher opened twice on one PC. | Added port-in-use detection in `server.py` with custom error prompts. |
