@@ -6,12 +6,14 @@ const backendInput = document.getElementById("backend-url");
 
 const inviteSection = document.getElementById("invite-section");
 
-let baseUrl = backendInput.value.replace(/\/$/, "");
+let baseUrl = backendInput ? backendInput.value.replace(/\/$/, "") : "";
 
-backendInput.addEventListener("change", () => {
-    baseUrl = backendInput.value.replace(/\/$/, "");
-    checkStatus();
-});
+if (backendInput) {
+    backendInput.addEventListener("change", () => {
+        baseUrl = backendInput.value.replace(/\/$/, "");
+        checkStatus();
+    });
+}
 
 async function apiCall(endpoint, method = "GET") {
     try {
@@ -130,7 +132,7 @@ function toggleDocView(show) {
     if (show) {
         mainContainerChildren.forEach(el => el.classList.add("hidden"));
         docSection.classList.remove("hidden");
-        loadDoc("doc/README.md");
+        loadDoc("doc/DOCUMENTATION.md");
     } else {
         mainContainerChildren.forEach(el => el.classList.remove("hidden"));
         docSection.classList.add("hidden");
