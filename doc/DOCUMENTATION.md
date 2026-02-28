@@ -69,6 +69,9 @@ Makka Live Bot is a specialized Discord music bot designed for high-quality audi
 - **Surah Query**: Added `!surah` command which lists all 114 Surahs and total ayah counts in an optimized 3-column format spanning two Discord messages to bypass character limits.
 - **Static FFmpeg Re-Integration**: PyInstaller now uses `--collect-all=static_ffmpeg` to bundle FFmpeg binaries natively, preserving seamless execution for both full Windows `.exe` builds and direct `python bot.py` development environments without errors.
 
+### v1.8.1 (Quran API Pagination Fix)
+- **Verse Pagination**: Increased the verses-per-page limit in the Quran API requests to retrieve up to 286 verses (maximum in any Surah) per API call, fixing a bug where `!quran` would abruptly stop queuing after 10 verses.
+
 ---
 
 ## Bot Commands
