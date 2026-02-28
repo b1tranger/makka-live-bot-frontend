@@ -92,7 +92,7 @@ setInterval(checkStatus, 5000);
 const viewDocBtn = document.getElementById("view-doc-btn");
 const backToHomeBtn = document.getElementById("back-to-home-btn");
 const docSection = document.getElementById("doc-section");
-const mainContainerChildren = document.querySelectorAll(".container > *:not(#doc-section):not(footer)");
+const mainContainerChildren = document.querySelectorAll(".container > *:not(#doc-section):not(footer):not(.modal)");
 const docContent = document.getElementById("doc-content");
 
 async function loadDoc(filePath) {
@@ -132,7 +132,7 @@ function toggleDocView(show) {
     if (show) {
         mainContainerChildren.forEach(el => el.classList.add("hidden"));
         docSection.classList.remove("hidden");
-        loadDoc("doc/DOCUMENTATION.md");
+        loadDoc("doc/README.md");
     } else {
         mainContainerChildren.forEach(el => el.classList.remove("hidden"));
         docSection.classList.add("hidden");
