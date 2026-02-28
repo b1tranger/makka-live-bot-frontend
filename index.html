@@ -65,100 +65,118 @@
             </div>
         </section>
 
-        <section class="faq-card">
-            <details class="faq-item">
-                <summary>Introduction</summary>
-                <div class="faq-content">
-                    <p>Makka Live Bot is a specialized Discord music bot designed for high-quality audio streaming from
-                        YouTube. It features a unique "Remote Control" architecture that allows users to host the bot on
-                        their local machines while controlling it via a centralized web dashboard, all while keeping the
-                        source code and tokens protected.</p>
+        <div id="faq-container" style="margin-bottom: 20px;">
+            <button id="faq-toggle-btn" class="btn secondary"
+                style="width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; border-radius: 16px; font-size: 1.1rem; font-weight: 500; margin-bottom: 10px;">
+                <span>FAQ & Information</span>
+                <span id="faq-toggle-icon"
+                    style="transition: transform 0.3s ease; display: inline-block; font-size: 0.8rem;">▼</span>
+            </button>
+
+            <section id="faq-section" class="faq-card hidden" style="margin-bottom: 0;">
+                <details class="faq-item">
+                    <summary>Introduction</summary>
+                    <div class="faq-content">
+                        <p>Makka Live Bot is a specialized Discord music bot designed for high-quality audio streaming
+                            from
+                            YouTube. It features a unique "Remote Control" architecture that allows users to host the
+                            bot on
+                            their local machines while controlling it via a centralized web dashboard, all while keeping
+                            the
+                            source code and tokens protected.</p>
+                    </div>
+                </details>
+                <details class="faq-item">
+                    <summary>How does the bot work?</summary>
+                    <div class="faq-content">
+                        <p>Makka Live Bot can be run in two ways:</p>
+                        <ul>
+                            <li>
+                                <strong>Option 1 (Remote):</strong> Start the bot directly on
+                                the backend servers using this dashboard. (Not recommended since the backend is hosted
+                                on
+                                Vercel, which does not run continuously. Need to host it on a VPS or similar.)
+                            </li>
+                            <li>
+                                <strong>Option 2 (Local):</strong> Run the bot on your local
+                                machine using MakkaLauncher. This control center will then
+                                communicate with it remotely.
+                            </li>
+                        </ul>
+                    </div>
+                </details>
+                <details class="faq-item">
+                    <summary>What should I do first?</summary>
+                    <div class="faq-content">
+                        <ol>
+                            <li>
+                                <strong>Add the bot:</strong> Click the "Add Bot to Discord"
+                                link above to invite Makka to your server.
+                            </li>
+                            <li>
+                                <strong>Choose an option:</strong> Start the bot remotely using
+                                Option 1, or download the <code>MakkaLauncher.exe</code> from
+                                Option 2.
+                            </li>
+                            <li>
+                                <strong>Local Setup:</strong> If choosing Option 2, execute the
+                                downloaded file on your host machine to connect it to this
+                                control center.
+                            </li>
+                        </ol>
+                    </div>
+                </details>
+                <details class="faq-item">
+                    <summary>Can I run the bot on multiple devices?</summary>
+                    <div class="faq-content">
+                        <p><strong>Yes!</strong> Makka Live Bot features an <strong>Automatic Failover</strong> system.
+                            If
+                            you run the <code>MakkaLauncher.exe</code> on multiple computers:</p>
+                        <ul>
+                            <li>The first one to start becomes the <strong>Master</strong> and handles all commands.
+                            </li>
+                            <li>Others enter <strong>Standby Mode</strong> automatically.</li>
+                            <li>If the Master instance is closed or loses connection, a Standby instance will
+                                automatically take over as the new Master within <strong>35 seconds</strong>.</li>
+                            <li>The new Master will even automatically rejoin the voice channels and resume its last
+                                known
+                                state.</li>
+                        </ul>
+                    </div>
+                </details>
+                <details class="faq-item">
+                    <summary>What is the Islamic Content Filter?</summary>
+                    <div class="faq-content">
+                        <p>To ensure the server focus remains on Islamic content, the bot includes a <strong>Halal
+                                Filter</strong>:</p>
+                        <ul>
+                            <li>The <code>!play</code> command checks titles for keywords like <em>Quran, Nasheed,
+                                    Islamic,
+                                    Lecture</em>.</li>
+                            <li>Songs and music content are automatically blocked.</li>
+                            <li>Moderators can use <code>!haram &lt;url&gt;</code> to bypass the filter, which sends an
+                                alert to the notification channel.</li>
+                        </ul>
+                    </div>
+                </details>
+                <details class="faq-item">
+                    <summary>How do I use the Quran commands?</summary>
+                    <div class="faq-content">
+                        <p>The bot is integrated with the <strong>Quran Foundation API</strong>. You can use:</p>
+                        <ul>
+                            <li><code>!quran &lt;surah&gt; &lt;start&gt; [end]</code> to play specific verses.</li>
+                            <li><code>!translate &lt;surah&gt; &lt;ayah&gt;</code> to view interactive translations.
+                            </li>
+                            <li>Use <code>!help</code> in Discord to see the full list of available commands.</li>
+                        </ul>
+                    </div>
+                </details>
+                <div style="margin-top: 16px; text-align: center;">
+                    <button id="view-doc-btn" class="btn secondary" style="padding: 8px 16px; font-size: 0.85rem;">View
+                        Documentation</button>
                 </div>
-            </details>
-            <details class="faq-item">
-                <summary>How does the bot work?</summary>
-                <div class="faq-content">
-                    <p>Makka Live Bot can be run in two ways:</p>
-                    <ul>
-                        <li>
-                            <strong>Option 1 (Remote):</strong> Start the bot directly on
-                            the backend servers using this dashboard. (Not recommended since the backend is hosted on
-                            Vercel, which does not run continuously. Need to host it on a VPS or similar.)
-                        </li>
-                        <li>
-                            <strong>Option 2 (Local):</strong> Run the bot on your local
-                            machine using MakkaLauncher. This control center will then
-                            communicate with it remotely.
-                        </li>
-                    </ul>
-                </div>
-            </details>
-            <details class="faq-item">
-                <summary>What should I do first?</summary>
-                <div class="faq-content">
-                    <ol>
-                        <li>
-                            <strong>Add the bot:</strong> Click the "Add Bot to Discord"
-                            link above to invite Makka to your server.
-                        </li>
-                        <li>
-                            <strong>Choose an option:</strong> Start the bot remotely using
-                            Option 1, or download the <code>MakkaLauncher.exe</code> from
-                            Option 2.
-                        </li>
-                        <li>
-                            <strong>Local Setup:</strong> If choosing Option 2, execute the
-                            downloaded file on your host machine to connect it to this
-                            control center.
-                        </li>
-                    </ol>
-                </div>
-            </details>
-            <details class="faq-item">
-                <summary>Can I run the bot on multiple devices?</summary>
-                <div class="faq-content">
-                    <p><strong>Yes!</strong> Makka Live Bot features an <strong>Automatic Failover</strong> system. If
-                        you run the <code>MakkaLauncher.exe</code> on multiple computers:</p>
-                    <ul>
-                        <li>The first one to start becomes the <strong>Master</strong> and handles all commands.</li>
-                        <li>Others enter <strong>Standby Mode</strong> automatically.</li>
-                        <li>If the Master instance is closed or loses connection, a Standby instance will
-                            automatically take over as the new Master within <strong>35 seconds</strong>.</li>
-                        <li>The new Master will even automatically rejoin the voice channels and resume its last known
-                            state.</li>
-                    </ul>
-                </div>
-            </details>
-            <details class="faq-item">
-                <summary>What is the Islamic Content Filter?</summary>
-                <div class="faq-content">
-                    <p>To ensure the server focus remains on Islamic content, the bot includes a <strong>Halal
-                            Filter</strong>:</p>
-                    <ul>
-                        <li>The <code>!play</code> command checks titles for keywords like <em>Quran, Nasheed, Islamic,
-                                Lecture</em>.</li>
-                        <li>Songs and music content are automatically blocked.</li>
-                        <li>Moderators can use <code>!haram &lt;url&gt;</code> to bypass the filter, which sends an
-                            alert to the notification channel.</li>
-                    </ul>
-                </div>
-            </details>
-            <details class="faq-item">
-                <summary>How do I use the Quran commands?</summary>
-                <div class="faq-content">
-                    <p>The bot is integrated with the <strong>Quran Foundation API</strong>. You can use:</p>
-                    <ul>
-                        <li><code>!quran &lt;surah&gt; &lt;start&gt; [end]</code> to play specific verses.</li>
-                        <li><code>!translate &lt;surah&gt; &lt;ayah&gt;</code> to view interactive translations.</li>
-                        <li>Use <code>!help</code> in Discord to see the full list of available commands.</li>
-                    </ul>
-                </div>
-            </details>
-            <div style="margin-top: 16px; text-align: center;">
-                <button id="view-doc-btn" class="btn secondary" style="padding: 8px 16px; font-size: 0.85rem;">View
-                    Documentation</button>
-            </div>
-        </section>
+            </section>
+        </div>
 
         <!-- Documentation Viewer (Hidden by default) -->
         <section id="doc-section" class="faq-card hidden" style="max-height: none; text-align: left;">

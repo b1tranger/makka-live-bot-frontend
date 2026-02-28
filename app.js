@@ -147,6 +147,24 @@ if (backToHomeBtn) {
     backToHomeBtn.addEventListener("click", () => toggleDocView(false));
 }
 
+// FAQ Toggle Logic
+const faqToggleBtn = document.getElementById("faq-toggle-btn");
+const faqSection = document.getElementById("faq-section");
+const faqToggleIcon = document.getElementById("faq-toggle-icon");
+
+if (faqToggleBtn && faqSection) {
+    faqToggleBtn.addEventListener("click", () => {
+        const isHidden = faqSection.classList.contains("hidden");
+        if (isHidden) {
+            faqSection.classList.remove("hidden");
+            if (faqToggleIcon) faqToggleIcon.style.transform = "rotate(-180deg)";
+        } else {
+            faqSection.classList.add("hidden");
+            if (faqToggleIcon) faqToggleIcon.style.transform = "rotate(0deg)";
+        }
+    });
+}
+
 // Update footer year dynamically
 const footerYearElement = document.querySelector("footer p");
 if (footerYearElement) {
