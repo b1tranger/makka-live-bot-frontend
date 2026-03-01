@@ -47,7 +47,8 @@ Makka Live Bot is a specialized Discord music bot designed for high-quality audi
 ### v1.5.0 (Quran & Documentation Integration)
 - **Quran API**: Integrated `api.quran.com` for high-quality recitation and verse data.
 - **Interactive Commands**: Added `!quran`, `!ayah`, `!reciters`, and `!translate`.
-- **Navigation Buttons**: Implemented Discord UI buttons for flipping through ayah translations.
+- **Navigation & Audio**: Implemented Discord UI buttons for flipping through ayah translations and playing verse audio inline (default reciter 7).
+- **Rich Verse Data**: `!translate` now displays Uthmani Arabic text alongside the translation and includes the localized Surah name.
 - **In-Dashboard Docs**: Added a markdown viewer to the dashboard for reading documentation locally without leaving the site.
 - **Smart Notifications**: Priority-based message routing to minimize channel clutter (Bot-channel > Voice Chat > System).
 
@@ -72,6 +73,12 @@ Makka Live Bot is a specialized Discord music bot designed for high-quality audi
 ### v1.8.1 (Quran API Pagination Fix)
 - **Verse Pagination**: Increased the verses-per-page limit in the Quran API requests to retrieve up to 286 verses (maximum in any Surah) per API call, fixing a bug where `!quran` would abruptly stop queuing after 10 verses.
 
+### v1.9.0 (Seamless Failover & Radio Mode)
+- **📻 Radio Mode**: Added `!quran radio [reciter_id]` feature to queue non-stop randomized Surahs safely without interrupting ongoing streams.
+- **🔄 Seamless Byte-Accurate State Transfer**: The Master instance now intercepts and counts underlying FFMPEG PCM bytestreams (`192,000` b/s). The paused/playing track's exact playback timestamp is saved into the ZLib-Base64 heartbeat payload. Standbys use this data to execute `-ss` injections to insta-skip precisely to where the Master disconnected!
+- **⚡ Collision Resolution (Split-Brain Fix)**: Added active bot-state collision negotiation. If two competing Master instances rapidly connect due to overlapping start-times, the bot with the lower UUID safely drops Master status and disconnects its conflicting Voice Clients instead of endlessly producing Discord WebSocket `4006` closing code loops.
+- **Documentation**: Updated `!help` to precisely detail `!play live` usage, explicit `!quran full` syntax, and newly hid the `!close_bot` system command.
+
 ---
 
 ## Bot Commands
@@ -81,28 +88,28 @@ The following commands are available to interact with the bot in Discord.
 ### Music & Media
 | Command | Usage | Description |
 | :--- | :--- | :--- |
-| `!help` | `!help` | Displays a detailed menu of all available bot commands. |
 | `!join` | `!join` | Connects the bot to your current voice channel. |
 | `!play` | `!play <URL>` | Plays audio from a YouTube video or search (Islamic content only). |
+| `!play live`| `!play live <channel>` | Streams Arabic/Islamic live events natively from YouTube handles. |
 | `!haram` | `!haram <URL>` | Bypasses the Islamic filter (usage is logged for moderators). |
 | `!pause` | `!pause` | Pauses the current playback. |
 | `!resume` | `!resume` | Resumes a paused playback. |
 | `!skip` | `!skip` | Skips the current track and plays the next in queue. |
-| `!stop` | `!stop` | Stops playback, clears the queue, and disconnects the bot. |
+| `!stop` | `!stop` | Stops playback and clears the queue. |
+| `!leave` | `!leave`| Disconnects the bot from the voice channel. |
 
 ### Quran Recitation
 | Command | Usage | Description |
 | :--- | :--- | :--- |
 | `!surah` | `!surah` | Lists all 114 Surahs and their verse counts in 3-columns to easily find chapters. |
-| `!quran` | `!quran <surah> <start> [end] [reciter]` | Plays a range of verses. Default reciter ID is 7. |
-| `!ayah` | `!ayah <surah> <ayah> [reciter]` | Plays a single verse from a specific surah. |
+| `!quran` | `!quran <surah> <start> [end] [reciter]` | Plays a range of verses. Examples: `!quran 1 1 7` (Al-Fatihah), `!quran 2 255` (Ayatul Kursi). |
+| `!quran full` | `!quran <surah> full [reciter]` | Plays an entire chapter continuously using the full file API. |
+| `!quran radio`| `!quran radio [reciter]`| Unending radio. Automatically queues 10 random chapters endlessly at high speed. |
+| `!ayah` | `!ayah <surah> <ayah> [reciter]` | Plays a single verse. Example: `!ayah 1 1`. |
 | `!reciters`| `!reciters` | Lists the top 20 available reciter IDs. |
-| `!translate`| `!translate <surah> <ayah> [lang]` | Shows the translation of an ayah with ◀️/▶️ navigation buttons. |
-
-### System & Failover
-| Command | Usage | Description |
-| :--- | :--- | :--- |
-| `!close_bot`| `!close_bot` | Safely shuts down the Master instance and triggers instant failover to Standby. |
+| `!translate`| `!translate <surah> <ayah> [lang]` | Shows translation, Uthmani Arabic text, and includes a Play Audio button. Example: `!translate 1 1 fr` (First verse in French). |
+| `!daily` | `!daily`| Shows a random Quran verse, a random Hadith (Abu Dawud), and a button for Tafsir Ibn Kathir. |
+| `!close_bot`| `!close_bot`| Safely shuts down the active Master instance and triggers the failover to Standby. |
 
 ---
 
@@ -112,9 +119,8 @@ The following commands are available to interact with the bot in Discord.
 To ensure 100% uptime and prevent API conflicts, the bot uses a decentralized failover system:
 1. **Handshake**: On startup, the instance checks for an active Master. If found, it enters **Standby Mode**.
 2. **Master Announcement**: Upon becoming Master (at startup or via failover), the instance sends a one-time message: `👑 Makka Master: Instance [SID:...] is now ACTIVE.`
-3. **Heartbeat**: The Master instance sends a background heartbeat `💓 [HB:...]` every 15 seconds to update the `last_heartbeat` timestamp on Standby instances.
-4. **Promotion**: If no heartbeat is received for 35 seconds, or if a "Shutting Down" signal is detected, a Standby instance promotes itself to **Master**.
-5. **State Recovery**: The new Master uses the last known voice channel data from the heartbeat to automatically reconnect.
+3. **Heartbeat**: The Master instance sends a background heartbeat `💓 [HB:...]` every 20 seconds using ZLib compression and Base64 encoding. It embeds not only the upcoming queue context, but specifically traces and counts elapsed FFMPEG PCM processing bytes to calculate precise stream timestamps (seconds elapsed) to securely pass to Standbys!
+4. **Promotion & Resumption**: If no heartbeat is received for 35 seconds, or if a "Shutting Down" signal is detected, a Standby instance parses the last heartbeat's Base64 queue, injects `-ss` to precisely fast-forward the new stream to the specific second the Master disconnected, and promotes itself to **Master** seamlessly.
 
 ### Music Queue & Playlist Architecture
 The bot maintains a dictionary of queues keyed by Guild ID. When a playlist URL is provided:
@@ -128,8 +134,9 @@ The `.env` and `bot.py` files are bundled directly into the `MakkaLauncher.exe` 
 ### Quran Foundation API Integration
 The bot leverages the Quran Foundation API to fetch verse information, translations, and audio URLs.
 - **Secure Access**: Supports `QURAN_CLIENT_ID` and `QURAN_CLIENT_SECRET` for authorized playback.
-- **Reciter Selection**: Users can choose from hundreds of reciters via ID.
-- **Translation Navigation**: Uses `discord.ui.View` with buttons to allow stateful navigation between verses.
+- **Reciter Selection**: Users can choose from hundreds of reciters via ID for `!quran` and `!ayah`.
+- **Rich Translations**: `!translate` displays the original Uthmani Arabic text along with localized translations and Surah names.
+- **Interactive Navigation**: Uses `discord.ui.View` with buttons to allow stateful navigation between verses and inline audio playback.
 - **Audio Delivery**: Direct MP3 streaming via FFmpeg bypasses local download overhead for instant playback.
 
 ### Islamic Content Filtering Logic

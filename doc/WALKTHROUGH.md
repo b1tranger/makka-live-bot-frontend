@@ -31,6 +31,10 @@ In your Discord server, use the following commands:
 
 - `!join` : Tells the bot to join your current voice channel.
 - `!play <URL>` : Streams music from a YouTube video URL.
+- `!play live <channel>` : Streams Arabic/Islamic live events natively from YouTube.
+- `!quran <surah>` : Plays a specific Quran chapter.
+- `!quran radio` : Enters endless radio mode with randomized Surahs.
+- `!daily` : Shows a random Quran verse and Hadith.
 - `!stop` or `!leave` : Disconnects the bot from voice.
 
 ### Turning Off
