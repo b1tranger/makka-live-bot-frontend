@@ -79,6 +79,11 @@ Makka Live Bot is a specialized Discord music bot designed for high-quality audi
 - **⚡ Collision Resolution (Split-Brain Fix)**: Added active bot-state collision negotiation. If two competing Master instances rapidly connect due to overlapping start-times, the bot with the lower UUID safely drops Master status and disconnects its conflicting Voice Clients instead of endlessly producing Discord WebSocket `4006` closing code loops.
 - **Documentation**: Updated `!help` to precisely detail `!play live` usage, explicit `!quran full` syntax, and newly hid the `!close_bot` system command.
 
+### v1.9.1 (DAVE Protocol & Encryption Update)
+- **Discord Voice E2EE Support**: Upgraded to `discord.py` v2.7.0 to support Discord's mandatory DAVE (Audio & Video End-to-End Encryption) protocol.
+- **Connection Stability**: Fixed the `4017` WebSocket close code that caused intermittent voice disconnects after March 2026.
+- **Build Dependency**: Note: Building from source now requires the Rust/Cargo toolchain installed on the host system to compile the `davey` encryption library.
+
 ---
 
 ## Bot Commands
