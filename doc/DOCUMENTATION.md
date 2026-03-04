@@ -1,11 +1,13 @@
 # Makka Live Bot | Technical Documentation
 
 ## Project Overview
-Makka Live Bot is a high-fidelity Discord audio engine built for seamless audio streaming.
-- Never Goes Offline: We use a "Master-Standby" relay. If one hosting instance dies, another immediately steps up to keep the audio playing."Master" instance dies, and they take over as new "Master" instances to continue the bot functionality.
-- Values-Driven: We are committed to making this a "Muslim-friendly" bot. We are currently developing filters to ensure content remains halal and beneficial for everyone. 
+Makka Live Bot is a high-fidelity Discord audio engine built for seamless, decentralized streaming.
 
-Insha-Allah, this project will grow to serve the entire Ummah with clean, high-quality audio technology.
+- Resilient "Master-Standby" Relay: Say goodbye to downtime. Our decentralized hosting model ensures that if a "Master" instance goes offline, a "Standby" instance immediately takes over to keep the bot functional across all servers.
+- Quranic Integration: Powered by the Quran.com API, the bot provides high-quality Quran recitations, daily verses (Ayat), detailed Tafsir, and multi-language translations directly to your voice channels and chats.
+- Values-Driven & Halal-First: We are committed to a "Muslim-friendly" experience. We are actively developing content filters to ensure all audio remains halal and beneficial, creating a safe space for the community.
+
+InshaAllah, this project will grow to serve the entire Ummah with clean, high-quality audio technology and easy access to the Word of Allah.
 
 ## Tech Stack & Libraries
 
