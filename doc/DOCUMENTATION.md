@@ -1,19 +1,13 @@
 # Makka Live Bot | Technical Documentation
 
 ## Project Overview
-Makka Live Bot is a high-fidelity Discord audio engine built for seamless, decentralized streaming.
-
-- Resilient "Master-Standby" Relay: Say goodbye to downtime. Our decentralized hosting model ensures that if a "Master" instance goes offline, a "Standby" instance immediately takes over to keep the bot functional across all servers.
-- Quranic Integration: Powered by the Quran.com API, the bot provides high-quality Quran recitations, daily verses (Ayat), detailed Tafsir, and multi-language translations directly to your voice channels and chats.
-- Values-Driven & Halal-First: We are committed to a "Muslim-friendly" experience. We are actively developing content filters to ensure all audio remains halal and beneficial, creating a safe space for the community.
-
-InshaAllah, this project will grow to serve the entire Ummah with clean, high-quality audio technology and easy access to the Word of Allah.
+Makka Live Bot is a specialized Discord music bot designed for high-quality audio streaming from YouTube. It features a unique "Remote Control" architecture that allows users to host the bot on their local machines while controlling it via a centralized web dashboard, all while keeping the source code and tokens protected.
 
 ## Tech Stack & Libraries
 
 ### Core Backend
 - **Python 3.10+**: Primary programming language.
-- **discord.py [voice]**: Framework for Discord API interaction and voice support.
+- **discord.py [voice] (v2.7.0+)**: Framework for Discord API interaction and mandatory DAVE (E2EE) voice support.
 - **yt-dlp**: Advanced YouTube metadata extraction and streaming.
 - **aiohttp**: Asynchronous HTTP client for Quran API requests.
 - **PyNaCl**: Networking and Cryptography library required for Discord Voice.
@@ -173,3 +167,4 @@ To maintain server cleanliness, the bot uses a priority system for notifications
 | **Source Exposure** | Sharing Python files reveals tokens. | Implemented PyInstaller with `--add-data` to hide files in binary. |
 | **Port Conflict** | Launcher opened twice on one PC. | Added port-in-use detection in `server.py` with custom error prompts. |
 | **OpusNotLoaded** | PyInstaller stripped Opus DLLs. | Updated `build_launcher.py` to bundle the `discord/bin` directory. |
+| **Discord Voice 4017** | Discord enforced DAVE (E2EE) on Mar 1, 2026. | **Required Upgrade**: Upgrade to `discord.py[voice]>=2.7.0`. Requires Rust toolchain for the `davey` dependency. |

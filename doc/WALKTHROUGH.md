@@ -26,23 +26,53 @@ Welcome to the Makka Live Bot control center! This guide will help you set up an
 ### Inviting the Bot
 The **"Add Bot to Discord"** link is always available on the dashboard. Click it at any time to authorize the bot for your server.
 
-### Voice Commands
+### Music & Media Commands
 In your Discord server, use the following commands:
 
-- `!join` : Tells the bot to join your current voice channel.
-- `!play <URL>` : Streams music from a YouTube video URL.
-- `!play live <channel>` : Streams Arabic/Islamic live events natively from YouTube.
-- `!quran <surah>` : Plays a specific Quran chapter.
-- `!quran radio` : Enters endless radio mode with randomized Surahs.
-- `!daily` : Shows a random Quran verse and Hadith.
-- `!stop` or `!leave` : Disconnects the bot from voice.
+| Command | Description |
+| :--- | :--- |
+| `!join` | Connects the bot to your current voice channel. |
+| `!play <URL>` | Streams audio from a YouTube video or search (Islamic content only). |
+| `!play live <channel>` | Streams Arabic/Islamic live events natively from YouTube handles. |
+<!-- | `!haram <URL>` | Bypasses the Islamic filter (usage is logged for moderators). | -->
+| `!pause` | Pauses the current playback. |
+| `!resume` | Resumes a paused playback. |
+| `!skip` | Skips the current track and plays the next in queue. |
+| `!stop` | Stops playback and clears the queue. |
+| `!leave` | Disconnects the bot from the voice channel. |
+
+### Quran Recitation Commands
+
+| Command | Description |
+| :--- | :--- |
+| `!surah` | Lists all 114 Surahs and their verse counts to easily find chapters. |
+| `!quran <surah> <start> [end] [reciter]` | Plays a range of verses. Example: `!quran 1 1 7` for Al-Fatihah. |
+| `!quran <surah> full [reciter]` | Plays an entire chapter continuously. |
+| `!quran radio [reciter]` | Enters endless radio mode — automatically queues randomized Surahs. |
+| `!ayah <surah> <ayah> [reciter]` | Plays a single verse. Example: `!ayah 1 1`. |
+| `!reciters` | Lists the top 20 available reciter IDs. |
+| `!translate <surah> <ayah> [lang]` | Shows translation, Arabic text, and a Play Audio button. Example: `!translate 1 1 fr`. |
+| `!daily` | Shows a random Quran verse, a Hadith, and a button for Tafsir Ibn Kathir. |
 
 ### Turning Off
 When you are finished, click **"Stop Bot"** on the web dashboard to release resources, and you can then close the `MakkaLauncher.exe` window.
 
 ---
 
+## 🔄 Failover & Reliability
+
+The bot uses a **Master-Standby** architecture for maximum uptime:
+- **Multiple instances** can run simultaneously. The first becomes Master; others enter Standby.
+- If the Master goes offline, a Standby instance **automatically promotes** itself and resumes playback from the exact second the Master stopped.
+- You don't need to do anything — the failover is fully automatic and seamless.
+
+---
+
 ## 🛠️ Troubleshooting
-- **Dashboard says "Connection Error"**: Make sure `MakkaLauncher.exe` is actually running and your Firewall isn't blocking port 8000.
-- **Bot is online but silent**: Ensure the hosting computer has a stable internet connection for streaming audio.
-- **Commands not working**: Check that the Bot has "Message Content Intent" enabled in the Discord Developer Portal.
+
+| Problem | Solution |
+| :--- | :--- |
+| **Dashboard says "Connection Error"** | Make sure `MakkaLauncher.exe` is actually running and your Firewall isn't blocking port 8000. |
+| **Bot is online but silent** | Ensure the hosting computer has a stable internet connection for streaming audio. |
+| **Commands not working** | Check that the Bot has "Message Content Intent" enabled in the Discord Developer Portal. |
+| **Voice disconnects (4017 error)** | Ensure you are using the latest `MakkaLauncher.exe` build with DAVE (E2EE) support (discord.py v2.7.0+). |
