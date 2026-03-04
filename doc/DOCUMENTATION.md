@@ -1,7 +1,11 @@
 # Makka Live Bot | Technical Documentation
 
 ## Project Overview
-Makka Live Bot is a specialized Discord music bot designed for high-quality audio streaming from YouTube. It features a unique "Remote Control" architecture that allows users to host the bot on their local machines while controlling it via a centralized web dashboard, all while keeping the source code and tokens protected.
+Makka Live Bot is a high-fidelity Discord audio engine built for seamless audio streaming.
+- Never Goes Offline: We use a "Master-Standby" relay. If one hosting instance dies, another immediately steps up to keep the audio playing."Master" instance dies, and they take over as new "Master" instances to continue the bot functionality.
+- Values-Driven: We are committed to making this a "Muslim-friendly" bot. We are currently developing filters to ensure content remains halal and beneficial for everyone. 
+
+Insha-Allah, this project will grow to serve the entire Ummah with clean, high-quality audio technology.
 
 ## Tech Stack & Libraries
 
