@@ -5,14 +5,13 @@ This guide explains the project structure, how to create and configure your own 
 ## Project Structure
 - `requirements.txt`: Contains all necessary Python packages, including `discord.py[voice]>=2.7.0`, `yt-dlp`, `aiohttp`, `PyNaCl`, and `static-ffmpeg`.
 - `bot.py`: The main bot implementation with commands for music, Quran recitation, failover, and Islamic content filtering.
-- `.env.template`: Template for your Discord token and Quran API credentials.
+- `.env.template`: Template for your Quran API credentials.
 - `server.py`: FastAPI bridge server that exposes the bot controls to the web dashboard.
 - `build_launcher.py`: PyInstaller build script for creating the standalone `MakkaLauncher.exe`.
 
 ## Prerequisites
 - **Python 3.10+**
 - **Rust/Cargo Toolchain**: Required to compile the `davey` encryption library for Discord Voice E2EE (DAVE protocol).
-- **Discord Bot Token**: Obtained from the [Discord Developer Portal](https://discord.com/developers/applications).
 
 ## How to Set Up
 
@@ -21,11 +20,9 @@ This guide explains the project structure, how to create and configure your own 
    - Click **"New Application"**, give it a name, and confirm.
    - Navigate to the **"Bot"** section and click **"Add Bot"**.
    - Under **Privileged Gateway Intents**, enable **Message Content Intent**.
-   - Copy the **Bot Token** — you will need this for the `.env` file.
 
 2. **Configure the Environment**:
    - Copy `.env.template` to `.env`.
-   - Paste your Discord Bot Token into the `DISCORD_TOKEN` field.
    - Optionally add `QURAN_CLIENT_ID` and `QURAN_CLIENT_SECRET` for Quran Foundation API access.
 
 3. **Install Dependencies**:
@@ -39,7 +36,7 @@ This guide explains the project structure, how to create and configure your own 
 
 5. **Build the Launcher (Production)**:
    - Run `python build_launcher.py` to create `MakkaLauncher.exe`.
-   - The build bundles `.env`, `bot.py`, FFmpeg, Opus DLLs, and the `davey` library into a single executable.
+   - The build bundles FFmpeg, Opus DLLs, and the `davey` library into a single executable.
 
 ## How to Verify
 
@@ -48,6 +45,7 @@ This guide explains the project structure, how to create and configure your own 
    - Join a voice channel.
    - Type `!join` to bring the bot in.
    - Type `!play <youtube_link>` to test audio streaming.
+   - Type `!play live` to test live quran recitation.
    - Type `!quran 1 1 7` to test Quran recitation.
    - Type `!stop` to stop playback, or `!leave` to disconnect.
 

@@ -1,6 +1,6 @@
 # Makka Bot | User Walkthrough
 
-Welcome to the Makka Live Bot control center! This guide will help you set up and run the bot on any computer using our secure launcher system.
+Welcome to the Makka Live Bot control center! This guide will help you set up and run the bot on any computer using our launcher system.
 
 ## 🚀 Setup Guide
 
@@ -33,7 +33,7 @@ In your Discord server, use the following commands:
 | :--- | :--- |
 | `!join` | Connects the bot to your current voice channel. |
 | `!play <URL>` | Streams audio from a YouTube video or search (Islamic content only). |
-| `!play live <channel>` | Streams Arabic/Islamic live events natively from YouTube handles. |
+| `!play live` | Plays live quran recitation. |
 <!-- | `!haram <URL>` | Bypasses the Islamic filter (usage is logged for moderators). | -->
 | `!pause` | Pauses the current playback. |
 | `!resume` | Resumes a paused playback. |

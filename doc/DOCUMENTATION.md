@@ -1,7 +1,7 @@
 # Makka Live Bot | Technical Documentation
 
 ## Project Overview
-Makka Live Bot is a specialized Discord music bot designed for high-quality audio streaming from YouTube. It features a unique "Remote Control" architecture that allows users to host the bot on their local machines while controlling it via a centralized web dashboard, all while keeping the source code and tokens protected.
+Makka Live Bot is a specialized Discord music bot designed for high-quality audio streaming from YouTube. It features a unique "Remote Control" architecture that allows users to host the bot on their local machines while controlling it via a centralized web dashboard.
 
 ## Tech Stack & Libraries
 
@@ -17,7 +17,7 @@ Makka Live Bot is a specialized Discord music bot designed for high-quality audi
 - **FastAPI**: High-performance web framework for the control bridge.
 - **Uvicorn**: ASGI server for running the FastAPI application.
 - **psutil**: For monitoring and managing the bot process lifecycle.
-- **PyInstaller**: Used to package the system into a protected, standalone Windows executable.
+- **PyInstaller**: Used to package the system into a standalone Windows executable.
 
 ### Frontend Dashboard
 - **HTML5/CSS3**: Modern responsive layout with Glassmorphism aesthetics.
@@ -66,7 +66,7 @@ Makka Live Bot is a specialized Discord music bot designed for high-quality audi
 - **Command Help**: Added a custom interactive `!help` command with detailed field groups.
 
 ### v1.8.0 (Android & Usability Update)
-- **Android Support**: Added `MakkaLauncher-Android` (Linux ARM64 binary build) via GitHub Actions for secure deployment on Termux without exposing tokens.
+- **Android Support**: Added `MakkaLauncher-Android` (Linux ARM64 binary build) via GitHub Actions for secure deployment on Termux.
 - **Surah Query**: Added `!surah` command which lists all 114 Surahs and total ayah counts in an optimized 3-column format spanning two Discord messages to bypass character limits.
 - **Static FFmpeg Re-Integration**: PyInstaller now uses `--collect-all=static_ffmpeg` to bundle FFmpeg binaries natively, preserving seamless execution for both full Windows `.exe` builds and direct `python bot.py` development environments without errors.
 
@@ -94,8 +94,7 @@ The following commands are available to interact with the bot in Discord.
 | Command | Usage | Description |
 | :--- | :--- | :--- |
 | `!join` | `!join` | Connects the bot to your current voice channel. |
-| `!play` | `!play <URL>` | Plays audio from a YouTube video or search (Islamic content only). |
-| `!play live`| `!play live <channel>` | Streams Arabic/Islamic live events natively from YouTube handles. |
+| `!play live`| `!play live` | Plays live quran recitation. |
 | `!haram` | `!haram <URL>` | Bypasses the Islamic filter (usage is logged for moderators). |
 | `!pause` | `!pause` | Pauses the current playback. |
 | `!resume` | `!resume` | Resumes a paused playback. |
@@ -110,6 +109,7 @@ The following commands are available to interact with the bot in Discord.
 | `!quran` | `!quran <surah> <start> [end] [reciter]` | Plays a range of verses. Examples: `!quran 1 1 7` (Al-Fatihah), `!quran 2 255` (Ayatul Kursi). |
 | `!quran full` | `!quran <surah> full [reciter]` | Plays an entire chapter continuously using the full file API. |
 | `!quran radio`| `!quran radio [reciter]`| Unending radio. Automatically queues 10 random chapters endlessly at high speed. |
+| `!play` | `!play <URL>` | Plays audio from a YouTube video or search (Islamic content only). |
 | `!ayah` | `!ayah <surah> <ayah> [reciter]` | Plays a single verse. Example: `!ayah 1 1`. |
 | `!reciters`| `!reciters` | Lists the top 20 available reciter IDs. |
 | `!translate`| `!translate <surah> <ayah> [lang]` | Shows translation, Uthmani Arabic text, and includes a Play Audio button. Example: `!translate 1 1 fr` (First verse in French). |
@@ -132,9 +132,6 @@ The bot maintains a dictionary of queues keyed by Guild ID. When a playlist URL 
 1. The bot uses `extract_flat` to quickly gather metadata for all playlist entries.
 2. URLs are appended to the guild's queue.
 3. The `after` callback in `voice_client.play` triggers `play_next`, ensuring continuous playback without manual intervention.
-
-### Integrated Environment
-The `.env` and `bot.py` files are bundled directly into the `MakkaLauncher.exe` using PyInstaller's `--add-data` flag. The environment is loaded dynamically using `sys._MEIPASS` redirection.
 
 ### Quran Foundation API Integration
 The bot leverages the Quran Foundation API to fetch verse information, translations, and audio URLs.
@@ -164,7 +161,6 @@ To maintain server cleanliness, the bot uses a priority system for notifications
 | :--- | :--- | :--- |
 | **FFmpeg Not Found** | System PATH not configured. | Integrated `static-ffmpeg` and bundled binaries into EXE (with fallback for raw script). |
 | **Duplicate Processes** | Multiple people running EXE. | **Handshake Lock**: Instances auto-negotiate who stays active based on login order. |
-| **Source Exposure** | Sharing Python files reveals tokens. | Implemented PyInstaller with `--add-data` to hide files in binary. |
 | **Port Conflict** | Launcher opened twice on one PC. | Added port-in-use detection in `server.py` with custom error prompts. |
 | **OpusNotLoaded** | PyInstaller stripped Opus DLLs. | Updated `build_launcher.py` to bundle the `discord/bin` directory. |
 | **Discord Voice 4017** | Discord enforced DAVE (E2EE) on Mar 1, 2026. | **Required Upgrade**: Upgrade to `discord.py[voice]>=2.7.0`. Requires Rust toolchain for the `davey` dependency. |
