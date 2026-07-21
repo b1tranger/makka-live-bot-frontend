@@ -205,3 +205,47 @@ window.addEventListener("click", (e) => {
         andModal.classList.add("hidden");
     }
 });
+
+// Headphone Menu Configurations (Easy to extend)
+const headphoneLinks = [
+    { label: "Quran Radio", url: "https://quran.com/radio", icon: "fa-solid fa-radio" },
+    { label: "Quran Audio", url: "https://qurancentral.com/audio", icon: "fa-solid fa-music" },
+    // { label: "Quran Bot", url: "https://makka-live.netlify.app/", icon: "fa-brands fa-discord" }
+];
+
+function initHeadphoneMenu() {
+    const container = document.getElementById("headphone-menu-container");
+    const toggleBtn = document.getElementById("headphone-toggle-btn");
+    const panel = document.getElementById("headphone-menu-panel");
+    if (!container || !toggleBtn || !panel) return;
+
+    // Render configured links
+    panel.innerHTML = headphoneLinks.map(link => `
+        <a href="${link.url}" target="_blank" rel="noopener noreferrer" class="headphone-menu-item">
+            <i class="${link.icon}"></i>
+            <span>${link.label}</span>
+        </a>
+    `).join("");
+
+    // Toggle active state on click
+    toggleBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        container.classList.toggle("active");
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener("click", (e) => {
+        if (!container.contains(e.target)) {
+            container.classList.remove("active");
+        }
+    });
+
+    // Close on escape key
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+            container.classList.remove("active");
+        }
+    });
+}
+
+initHeadphoneMenu();

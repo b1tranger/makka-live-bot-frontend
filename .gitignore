@@ -5,3 +5,4 @@ dist/MakkaLauncher.exe
 dist/MakkaLauncher.exe
 /dist
 /dist
+.vscode/settings.json
