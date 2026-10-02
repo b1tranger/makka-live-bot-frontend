@@ -139,6 +139,9 @@ function toggleDocView(show) {
     }
 }
 
+window.loadDoc = loadDoc;
+window.toggleDocView = toggleDocView;
+
 if (viewDocBtn) {
     viewDocBtn.addEventListener("click", () => toggleDocView(true));
 }
