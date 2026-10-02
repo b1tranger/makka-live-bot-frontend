@@ -21,12 +21,12 @@ const CHANGELOG_DATA_FALLBACK = {
         {
           type: "Fix & Architecture",
           title: "Recursive Playback Loop & Queue Burnout Protection",
-          "description": "Added strict voice connection validation in play_next to prevent rapid queue emptying and infinite auto-refill loops when disconnected."
+          description: "Added strict voice connection validation in play_next to prevent rapid queue emptying and infinite auto-refill loops when disconnected."
         },
         {
           type: "Enhancement",
           title: "Self-Healing Channel Join & Cleaner Radio Logging",
-          description": "Improved !join to handle existing connections and channel switching gracefully without client errors, and suppressed benign 404 logs during radio refill."
+          description: "Improved !join to handle existing connections and channel switching gracefully without client errors, and suppressed benign 404 logs during radio refill."
         }
       ]
     },
@@ -196,10 +196,14 @@ const ChangelogModal = {
     if (!data) return;
 
     const lastSeenVersion = localStorage.getItem(this.storageKey);
-    const currentVersion = data.currentVersion || "v2.0.0";
+    const currentVersion = data.currentVersion || "v2.0.1";
 
     if (forceOpen || !lastSeenVersion || lastSeenVersion !== currentVersion) {
-      this.render(data);
+      try {
+        this.render(data);
+      } catch (err) {
+        console.error("[ChangelogModal] Rendering error:", err);
+      }
       this.open();
     }
   },

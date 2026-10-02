@@ -9,6 +9,7 @@ last_updated: 02.10.26
   - **Intelligent Stream Resumption**: Integrated precise playback offset persistence (`bytes_read / 192000.0`) and automatic `-ss` fast-forward restarting on `!resume`, ensuring audio seamlessly resumes even if remote CDN HTTP connections reset during pauses.
   - **Connection Resilience**: Implemented strict voice client connectivity checks to eliminate recursive queue purge loops and API auto-refill thrashing.
   - **Channel Switching & Cleaner Logs**: Updated `!join` to seamlessly move between voice channels without client exceptions and suppressed expected 404 notifications during randomized radio prefetching.
+  - **Changelog Modal Script Robustness**: Resolved a syntax error in the offline fallback object in [`changelog-modal.js`](../changelog-modal.js) and wrapped DOM rendering in exception guards so that the modal reliably opens on click.
 
 # 30.09.26
 - **v2.0.0 — Pure Quran Foundation API Streaming & In-Dashboard Changelog Modal (`changes.json`, `changelog-modal.js`, `index.html`, `style.css`, `doc/`)**:
