@@ -4,13 +4,35 @@
  */
 
 const CHANGELOG_DATA_FALLBACK = {
-  currentVersion: "v2.0.1",
+  currentVersion: "v2.1.0",
   lastUpdated: "October 2026",
   documentationUrl: "doc/DOCUMENTATION.md",
   history: [
     {
+      version: "v2.1.0",
+      badge: "Feature",
+      date: "02.10.26",
+      changes: [
+        {
+          type: "Feature & Audio",
+          title: "Quran Central RSS Audio Streaming & A# Reciter Namespace",
+          description: "Integrated qurancentral.com podcast RSS audio provider with unambiguous A# reciter identifiers (A1-A46) and direct remote MP3 streaming."
+        },
+        {
+          type: "Feature & UX",
+          title: "Dual-Message Provider-Separated !reciters Directory with Interactive Pagination",
+          description: "Split the reciter directory into two clean Discord embed messages (Quran Foundation and Quran Central) with interactive previous/next arrow button navigation."
+        },
+        {
+          type: "Enhancement & Stability",
+          title: "Unified Full Surah & Radio Mode with CDN Stream Resilience",
+          description: "Extended !quran full and radio commands to support both namespaces with in-memory TTL caching, and injected browser User-Agent headers into FFmpeg to eliminate Cloudflare 403 Forbidden stream dropouts."
+        }
+      ]
+    },
+    {
       version: "v2.0.1",
-      badge: "Latest",
+      badge: "Fix & Stability",
       date: "02.10.26",
       changes: [
         {
