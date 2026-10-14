@@ -4,10 +4,37 @@
  */
 
 const CHANGELOG_DATA_FALLBACK = {
-  currentVersion: "v2.1.0",
-  lastUpdated: "October 2026",
+  currentVersion: "v2.1.1",
+  lastUpdated: "14.10.26",
   documentationUrl: "doc/DOCUMENTATION.md",
   history: [
+    {
+      "version": "v2.1.1",
+      "badge": "Fix & Stability",
+      "date": "14.10.26",
+      "changes": [
+        {
+          "type": "Fix & Stability",
+          "title": "Quran Radio Rapid-Fail Circuit Breaker & 429 Shield",
+          "description": "Implemented consecutive stream failure tracking in play_next_after. Detects premature audio stream termination (< 3s elapsed or < 384,000 bytes read), introduces an asynchronous backoff pause (2.0s) between attempts, and halts the queue after 3 consecutive failures to eliminate Discord HTTP 429 message rate limit warnings."
+        },
+        {
+          "type": "Enhancement & Audio",
+          "title": "Catalog Slug Resolution & 100% Feed Health Verification",
+          "description": "Corrected podcast RSS feed endpoints for reciters A3 (Abdul Basit: abdul-basit-abd-us-samad), A11 (Abdur Rasheed Sufi: abdur-rasheed-sufi-soosi), and A39 (Noreen Muhammad Siddique: noreen-muhammad-siddique-al-duri-via-abu-amr). All 46 reciters verified healthy with HTTP 200 responses."
+        },
+        {
+          "type": "Fix & Stability",
+          "title": "Voice DNS Resolution Resilience & Exception Shielding",
+          "description": "Implemented safe_connect_voice with automated retries for transient Discord RTC gateway DNS resolution drops (ClientConnectorDNSError on *.discord.media). Protected !join, !quran, and button interactions with informative troubleshooting alerts."
+        },
+        {
+          "type": "Build & Deployment",
+          "title": "Recompiled Standalone Desktop Launcher (MakkaLauncher.exe)",
+          "description": "Rebuilt MakkaLauncher.exe bundling the latest bot engine with Cloudflare browser User-Agent headers, rapid failure protection, verified Quran Central catalog mappings, and voice DNS resilience."
+        }
+      ]
+    },
     {
       version: "v2.1.0",
       badge: "Feature",
